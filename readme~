@@ -1,0 +1,55 @@
+================================================================================================+
+Diagram Format											|
+********************************* HEADER FIELD (TOTAL: 48 bytes) *******************************+
+IPv4 Address (4 bytes)  #offset:0#								*
+												*
+[Reserved Space] (16 bytes for ipv6 address to come)  #offset:4#				*
+												*
+Cloud ID (8 byte cloud unique identity given by cloud distributor)  #offset:20#			*
+												*
+Cloud Status (1 byte, status in cloud, N for namenode, D for datanode) #offset:28#		*
+												*
+Session ID (time created: 									*
+			Year[int] + 								*
+			Month[byte] +								*
+			Day[byte] +								*
+			Hour[byte] +								*
+			Minute[byte] +								*
+			Second[byte] 								*
+			= 9 bytes								*
+			)	#offset:29#							*
+												*
+Patch Total (	8 byte,										*
+		usigned long long integer,							*
+		meaning total count of patches) #offset:38					*
+												*
+Patch Index (	8 byte,										*
+		unsigned long long integer,							*
+		describing order in the whole session) #offset:46#				*
+												*
+Data Field Length (2 bytes, unsigned short int) #offset:54#					*
+********************************* HEADER FIELD (TOTAL: 56 bytes) *******************************+
+												|
+												|
+												|
+******************************* DATA FIELD (TOTAL: 1024 bytes) *********************************+
+												*
+				stream of object to transfer					*
+												*
+******************************* DATA FIELD (TOTAL: 1024 bytes) *********************************+
+
+
+TOTAL: 56 bytes + 1024 bytes = 1080 bytes
+
+
+
+
+
+
+
+
+
+
+
+
+

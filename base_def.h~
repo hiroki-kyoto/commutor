@@ -1,0 +1,122 @@
+// base_def.h
+#include <pthread.h>
+
+#ifndef BASE_DEF_H
+#define BASE_DEF_H
+
+// communicatin port
+#ifndef PORT
+#define PORT	6000
+#endif
+
+// this size cannot be changed
+// giagram has determined all these settings
+// header : 56 bytes
+// data : 1024 bytes
+#ifndef SOCK_READ_BUF
+#define SOCK_READ_BUF 1080
+#endif
+
+// gram head
+#ifndef GRAM_HEAD_LEN
+#define GRAM_HEAD_LEN 56
+#endif
+
+// gram body
+#ifndef GRAM_BODY_LEN
+#define GRAM_BODY_LEN 1024
+#endif
+
+// the tolerance of socket failure before its stop
+#ifndef SOCK_FAIL_TOL
+#define SOCK_FAIL_TOL 8
+#endif
+
+
+// set a midium one, so that it won't run far faster
+// than network stream, but also won't let buffer 
+// memory overflows.
+// It's in usec
+#ifndef SENDER_DELAY
+#define SENDER_DELAY 1000000
+#endif
+
+#ifndef RECEIVER_DELAY
+#define RECEIVER_DELAY 1000
+#endif
+
+#ifndef PAUSE_DELAY
+#define PAUSE_DELAY     1000000
+#endif
+
+// when not receiving any data for [SOCK_FAIL_TOL]
+// times, then sleep for a longer moment to wait
+// until next wave of bytes coming from network.
+// long sleep time must be no less than 1 second!
+
+#ifndef THREAD_LONG_SLEEP
+#define THREAD_LONG_SLEEP 1000000
+#endif
+
+#ifndef C_ID_SIZE
+#define C_ID_SIZE	8
+#endif
+
+#ifndef	S_ID_SIZE
+#define S_ID_SIZE	9
+#endif
+
+#ifndef IPV4_SIZE
+#define IPV4_SIZE	4
+#endif
+
+#ifndef RESERVED_SIZE
+#define RESERVED_SIZE	16
+#endif
+
+#ifndef P_TOTAL_SIZE
+#define P_TOTAL_SIZE	8
+#endif
+
+#ifndef CTL_CMD_RPT
+#define CTL_CMD_RPT     3
+#endif
+
+#ifndef CTL_CMD_DLY
+#define CTL_CMD_DLY     1000000
+#endif
+
+
+typedef unsigned char		BYTE;
+typedef unsigned long long	ULL;
+typedef unsigned short		USI;
+
+
+// resources
+char message_receive[SOCK_READ_BUF];
+char message_send[SOCK_READ_BUF];
+
+// to protect them, bind resources to mutex lock
+pthread_mutex_t mutex_rcv;
+pthread_mutex_t mutex_snd;
+
+
+// global id of client
+char CLOUD_ID[C_ID_SIZE];
+
+// Global mark to tell if to stop
+#ifndef MARK_SIZE
+#define MARK_SIZE	8
+#endif
+
+char STATE[MARK_SIZE];
+// OK 		: go on
+// PAUSE	: pause a moment without sending and receiving
+// STOP		: stop sending and receiving and end threads
+// RESET	: restart loging and keep sending and receiving
+
+// A lock is required to protect the state
+pthread_mutex_t mutex_stt;
+
+#endif
+
